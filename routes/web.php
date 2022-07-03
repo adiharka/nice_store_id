@@ -50,11 +50,8 @@ Route::middleware(['auth'])->group(function(){
 
     //Sales
     Route::get('/dashboard/sales', [SaleController::class, 'index'])->name('sales.index');
-    Route::get('/dashboard/sales/add', [SaleController::class, 'create'])->name('sales.create');
-    Route::post('/dashboard/sales/add', [SaleController::class, 'store'])->name('sales.store');
     Route::get('/dashboard/sales/{id}', [SaleController::class, 'show'])->name('sales.show');
-    Route::get('/dashboard/sales/update/{id}', [SaleController::class, 'edit'])->name('sales.edit');
-    Route::put('/dashboard/sales/update/{id}', [SaleController::class, 'update'])->name('sales.update');
+    Route::get('/dashboard/sales/{id}', [SaleController::class, 'show'])->name('sales.confirmation');
     Route::delete('/dashboard/sales/{id}', [SaleController::class, 'destroy'])->name('sales.destroy');
 
     //Else

@@ -18,4 +18,9 @@ class Product extends Model
         'category',
         'image'
     ];
+
+    public function on_cart(){
+        return $this->hasMany(CartDetail::class);
+    }
+
 }
