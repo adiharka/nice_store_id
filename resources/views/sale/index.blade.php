@@ -51,7 +51,7 @@
                         </div></td>
                     <td>
                         <a href="{{ route('sales.show', [$id]) }}" class="btn btn-primary"> Show</a>
-                        <a href="{{ route('sales.update', [$id]) }}" class="btn btn-warning"> Update</a>
+                        <a href="{{ route('sales.confirmation', [$id]) }}" class="btn btn-warning">Confirmation</a>
                         <a href="{{ route('sales.destroy', [$id]) }}" class="btn btn-danger" onclick="return confirm('Are you sure?')" > Delete</a>
                     </td>
                   </tr>

@@ -16,8 +16,14 @@ class CartController extends Controller
         $carts = Cart::where('user_id', $user)
         ->where('status_cart', '1')
         ->first();
-        if($carts)
+        $checkouts = Cart::where('user_id', $user)
+        ->where('status_cart', '2')
+        ->first();
+        if($checkouts)
         {
+            return view('client.thanks', compact('checkouts', 'user'));
+        }
+        elseif ($carts) {
             $details = $carts->detail;
             return view('cart.index', compact('carts', 'user', 'details'));
         }
@@ -67,7 +73,7 @@ class CartController extends Controller
             $itemdetail->cart->updatetotal($itemdetail->cart, $subtotal);
             $product->quantity = $product->quantity - $qty;
         }
-        return redirect('/cart')->with('success', 'Product added to cart successfully!');
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
     public function update_quantity(Request $request, $id)

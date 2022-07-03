@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductController;
@@ -51,7 +52,7 @@ Route::middleware(['auth'])->group(function(){
     //Sales
     Route::get('/dashboard/sales', [SaleController::class, 'index'])->name('sales.index');
     Route::get('/dashboard/sales/{id}', [SaleController::class, 'show'])->name('sales.show');
-    Route::get('/dashboard/sales/{id}', [SaleController::class, 'show'])->name('sales.confirmation');
+    Route::get('/dashboard/sales/confirmation/{id}', [SaleController::class, 'confirmation'])->name('sales.confirmation');
     Route::delete('/dashboard/sales/{id}', [SaleController::class, 'destroy'])->name('sales.destroy');
 
     //Else
@@ -64,12 +65,11 @@ Route::middleware(['auth'])->group(function(){
     Route::middleware(['user'])->group(function(){
         //User
         Route::get('/shop', [PagesController::class, 'shop'])->name('shop');
-        Route::get('/cart', function () {
-            return view('client.cart');
-        })->name('cart');
-        Route::get('/thanks', function () {
-            return view('client.thanks');
-        })->name('thanks');
+        Route::get('/cart', [CartController::class, 'index'])->name('cart');
+        Route::post('/add-to-cart', [CartController::class, 'add_to_cart'])->name('cart.add');
+        Route::post('/update-quantity', [CartController::class, 'update_quantity'])->name('cart.quantity');
+        Route::get('/delete-item', [CartController::class, 'delete_item'])->name('cart.delete');
+        Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
         Route::get('/shop/{id}', [PagesController::class, 'shop_detail'])->name('shop_detail');
     });
 });
