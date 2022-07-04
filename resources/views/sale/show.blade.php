@@ -3,7 +3,7 @@
 @section('content')
 @include('partial.sidebar')
 <main id="main" class="main">
-
+    <x-alert/>
     <div class="pagetitle">
       <h1>Detail Penjualan</h1>
       <nav>
@@ -27,37 +27,49 @@
                 <div class="row mb-3">
                   <label for="inputEmail3" class="col-sm-3 col-form-label">Transaction ID</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control " id="inputText" value="00001" disabled>
+                    <input type="text" class="form-control " id="inputText" value="{{ $cart->id }}" disabled>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="inputEmail3" class="col-sm-3 col-form-label">Tanggal Pesan</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control " id="inputText" value="2022-04-26" disabled>
+                    <input type="text" class="form-control " id="inputText" value="{{ $cart->created_at }}" disabled>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="inputEmail3" class="col-sm-3 col-form-label">Customer Name</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" id="inputEmail" value="Ayuni P" disabled>
+                    <input type="text" class="form-control" id="inputEmail" value="{{ $cart->user->name }}" disabled>
                   </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="inputPassword3" class="col-sm-3 col-form-label">Alamat</label>
-                    <div class="col-sm-8">
-                      <textarea disabled type="textarea" class="form-control" id="inputPassword" rows="5">Jl. Dr. Ir. H. Soekarno, Mulyorejo, Kec. Mulyorejo, Kota SBY, Jawa Timur 60115</textarea>
-                    </div>
+                  <label for="inputEmail3" class="col-sm-3 col-form-label">Jumlah Item</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputEmail" value="{{ $cart->detail->count() }} item" disabled>
                   </div>
-                  <div class="row mb-3">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">Detail Item</label>
-                    <div class="col-sm-8">
-                        <textarea disabled name="detail" class="form-control" id="" cols="30" rows="10">Tes</textarea>
-                    </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputEmail3" class="col-sm-3 col-form-label">Total Harga</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputEmail" value="Rp {{ number_format($cart->total,2,',','.') }}" disabled>
                   </div>
+                </div>
                   <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-3 col-form-label">Status</label>
                     <div class="col-sm-8">
-                        <p>Uncompleted</p>
+                        @if ($cart->status_cart == 1)
+                        <p class="">
+                        Dalam Keranjang
+                        </p>
+                        @elseif ($cart->status_cart == 2)
+                        <p class="">
+                        Menunggu Konfirmasi
+                        </p>
+                        @else
+                        <p class="">
+                        Selesai
+                        </p>
+                        @endif
                     </div>
                   </div>
               </form><!-- End Horizontal Form -->

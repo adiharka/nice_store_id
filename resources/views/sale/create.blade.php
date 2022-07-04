@@ -3,7 +3,7 @@
 @section('content')
 @include('partial.sidebar')
 <main id="main" class="main">
-
+    <x-alert/>
     <div class="pagetitle">
       <h1>Add Product</h1>
       <nav>
@@ -91,7 +91,7 @@
                             </tbody>
                         </table>
                       </div>
-                  </div> 
+                  </div>
                   <div class="row mb-3">
                     <label for="inputPassword3" class="col-sm-3 col-form-label">Status</label>
                     <div class="col-sm-8">
@@ -109,9 +109,9 @@
                       </div>
                     </div>
                   </div>
-                    
-                  
-                  
+
+
+
                 <div style="margin-left: 25.5%">
                   <a href="/dashboard/sales" type="submit" class="btn btn-primary">Update</a>
                   <button type="reset" class="btn btn-secondary">Reset</button>

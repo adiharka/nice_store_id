@@ -53,13 +53,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/dashboard/sales', [SaleController::class, 'index'])->name('sales.index');
     Route::get('/dashboard/sales/{id}', [SaleController::class, 'show'])->name('sales.show');
     Route::get('/dashboard/sales/confirmation/{id}', [SaleController::class, 'confirmation'])->name('sales.confirmation');
-    Route::delete('/dashboard/sales/{id}', [SaleController::class, 'destroy'])->name('sales.destroy');
+    Route::get('/dashboard/sales/delete/{id}', [SaleController::class, 'destroy'])->name('sales.destroy');
 
     //Else
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    
+
     });
 
     Route::middleware(['user'])->group(function(){
@@ -67,9 +67,9 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/shop', [PagesController::class, 'shop'])->name('shop');
         Route::get('/cart', [CartController::class, 'index'])->name('cart');
         Route::post('/add-to-cart', [CartController::class, 'add_to_cart'])->name('cart.add');
-        Route::post('/update-quantity', [CartController::class, 'update_quantity'])->name('cart.quantity');
-        Route::get('/delete-item', [CartController::class, 'delete_item'])->name('cart.delete');
-        Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+        Route::get('/update-quantity/{id}/{status}', [CartController::class, 'update_quantity'])->name('cart.quantity');
+        Route::get('/delete-item/{id}', [CartController::class, 'delete_item'])->name('cart.delete');
+        Route::get('/checkout/{id}', [CartController::class, 'checkout'])->name('cart.checkout');
         Route::get('/shop/{id}', [PagesController::class, 'shop_detail'])->name('shop_detail');
     });
 });

@@ -2,7 +2,7 @@
 @section('content')
 @include('partial.sidebar')
 <main id="main" class="main">
-
+    <x-alert/>
     <div class="pagetitle">
       <h1>Sales</h1>
       <nav>
@@ -28,17 +28,49 @@
                     <th scope="col">Pelanggan</th>
                     <th scope="col">Tanggal Pesan</th>
                     <th scope="col">Jumlah Item</th>
-                    <th scope="col">Pengiriman</th>
                     <th scope="col">Total</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                    @foreach ($carts as $cart)
+                    <tr>
+                        <th scope="row">{{ $loop->iteration }}</th>
+                        <td>{{ $cart->user->name }}</td>
+                        <td>{{ $cart->created_at }}</td>
+                        <td>{{ $cart->detail->count() }}</td>
+                        <td>Rp {{ number_format($cart->total,2,',','.') }}</td>
+                        <td>
+                            @if ($cart->status_cart == 1)
+                            <div class="badge bg-secondary">
+                            Dalam Keranjang
+                            </div>
+                            @elseif ($cart->status_cart == 2)
+                            <div class="badge bg-info">
+                            Menunggu Konfirmasi
+                            </div>
+                            @else
+                            <div class="badge bg-success">
+                            Selesai
+                            </div>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('sales.show', [$cart->id]) }}" class="btn btn-primary"> Show</a>
+                            @if ($cart->status_cart == 2)
+                            <a href="{{ route('sales.confirmation', [$cart->id]) }}" class="btn btn-warning">Confirm</a>
+                            @endif
+                            @if ($cart->status_cart != 3)
+                            <a href="{{ route('sales.destroy', [$cart->id]) }}" class="btn btn-danger" onclick="return confirm('Are you sure?')" > Delete</a>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
                   @php
                     $id=1
                   @endphp
-                  @for ($j=0;$j<50;$j++)
+                  @for ($j=0;$j<0;$j++)
                   <tr>
                     <th scope="row">{{ $id++ }}</th>
                     <td>Ayuni P</td>

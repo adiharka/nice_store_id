@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('no_invoice');
             $table->string('status_cart');
             $table->string('status_pembayaran');
-            $table->integer('subtotal');
-            $table->integer('total');
-            $table->string('bukti_pembayaran');
+            $table->integer('subtotal')->nullable();
+            $table->integer('total')->nullable();
+            $table->string('bukti_pembayaran')->nullable();
             $table->integer('user_id');
             $table->timestamps();
         });

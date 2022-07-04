@@ -15,9 +15,9 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $cart = Cart::where('status_cart', '2')->orderBy('id', 'desc')->get();
+        $carts = Cart::orderBy('id', 'desc')->get();
 
-        return view('sale.index', compact('cart'));
+        return view('sale.index', compact('carts'));
     }
 
     /**
@@ -44,15 +44,16 @@ class SaleController extends Controller
         $cart = Cart::findOrFail($id);
         $cart->delete();
 
-        return redirect()->route('sale.index')->with('success', 'Sale deleted successfully');
+        return redirect()->route('sales.index')->with('success', 'Sale deleted successfully');
     }
 
     public function confirmation($id)
     {
         $cart = Cart::findOrFail($id);
         $cart->status_pembayaran = '1';
+        $cart->status_cart = '3';
         $cart->save();
 
-        return redirect()->route('sale.index')->with('success', 'Sale payment confirmed successfully');
+        return redirect()->route('sales.index')->with('success', 'Sale payment confirmed successfully');
     }
 }

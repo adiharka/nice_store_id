@@ -3,7 +3,7 @@
 @section('content')
 @include('partial.sidebar')
 <main id="main" class="main">
-
+    <x-alert/>
   @if ($errors->any())
     @foreach ($errors->all() as $error)
       <li class="text-danger">{{ $error }}</li>

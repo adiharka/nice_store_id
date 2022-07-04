@@ -3,12 +3,7 @@
 @section('content')
 @include('partial.sidebar')
 <main id="main" class="main">
-
-  @if ($errors->any())
-    @foreach ($errors->all() as $error)
-      <li class="text-danger">{{ $error }}</li>
-    @endforeach
-  @endif
+    <x-alert/>
 
     <div class="pagetitle">
       <h1>Add Product</h1>

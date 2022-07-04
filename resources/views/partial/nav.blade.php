@@ -46,3 +46,6 @@
 
     </div>
 </header><!-- End Header -->
+<div style="margin-top: 6rem">
+    <x-alert/>
+</div>

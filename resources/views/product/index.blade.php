@@ -2,12 +2,7 @@
 @section('content')
 @include('partial.sidebar')
 <main id="main" class="main">
-
-  @if(session()->has('success'))
-    <div class="alert alert-success">
-    {{ session()->get('success') }}
-    </div>
-  @endif
+    <x-alert/>
 
     <div class="pagetitle">
       <h1>Product</h1>

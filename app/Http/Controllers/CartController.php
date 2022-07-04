@@ -25,6 +25,7 @@ class CartController extends Controller
         }
         elseif ($carts) {
             $details = $carts->detail;
+            // $products = $carts->product;
             return view('cart.index', compact('carts', 'user', 'details'));
         }
         else
@@ -39,7 +40,7 @@ class CartController extends Controller
         $product = Product::findOrFail($request->product_id);
         $cart = Cart::where('user_id', $user)
                     ->where('status_cart', '1')
-                    ->first();    
+                    ->first();
         if($cart){
             $itemcart = $cart;
         } else{
@@ -51,7 +52,7 @@ class CartController extends Controller
             $itemcart = Cart::create($inputancart);
         }
 
-        $data = CartDetail::where('cart_id', $itemcart->cart_id)
+        $data = CartDetail::where('cart_id', $itemcart->id)
                             ->where('product_id', $request->product_id)
                             ->first();
         $qty = $request->quantity;
@@ -59,34 +60,35 @@ class CartController extends Controller
         $subtotal = $qty * $harga;
 
         if($data){
-            $data->updatedetail($data, $qty, $harga);
-            $data->cart->updatetotal($data->cart, $subtotal);
+            $data->update_detail($data, $qty, $harga);
+            $data->cart->update_total($data->cart, $subtotal);
             $product->quantity = $product->quantity - $qty;
         } else{
             $inputan = $request->all();
             $inputan['cart_id'] = $itemcart->id;
             $inputan['product_id'] = $request->product_id;
-            $inputan['qty'] = $qty;
-            $inputan['harga'] = $harga;
+            $inputan['quantity'] = $qty;
+            $inputan['price'] = $harga;
             $inputan['subtotal'] = $harga * $qty;
-            $itemdetail = CartDetail::create($inputan);    
-            $itemdetail->cart->updatetotal($itemdetail->cart, $subtotal);
+            $itemdetail = CartDetail::create($inputan);
+            $itemdetail->cart->update_total($itemdetail->cart, $subtotal);
             $product->quantity = $product->quantity - $qty;
         }
+        $product->save();
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
-    public function update_quantity(Request $request, $id)
+    public function update_quantity($id, $status)
     {
         $itemdetail = CartDetail::findOrFail($id);
-        $param = $request->param;
-        
+        $param = $status;
+
         if ($param == 'tambah') {
             // update detail cart
             $qty = 1;
-            $itemdetail->updatedetail($itemdetail, $qty, $itemdetail->price);
+            $itemdetail->update_detail($itemdetail, $qty, $itemdetail->price);
             // update total cart
-            $itemdetail->cart->updatetotal($itemdetail->cart, $itemdetail->price);
+            $itemdetail->cart->update_total($itemdetail->cart, $itemdetail->price);
             return redirect('/cart')->with('success', 'Item quantity succesfully updated');
         }
         if ($param == 'kurang') {
@@ -97,9 +99,9 @@ class CartController extends Controller
                 return redirect('/cart')->with('error', 'Item quantity shouldnt be zero/under! Remove it if you want to!');
             }
             else{
-            $itemdetail->updatedetail($itemdetail, '-'.$qty, $itemdetail->price);
+            $itemdetail->update_detail($itemdetail, '-'.$qty, $itemdetail->price);
             // update total cart
-            $itemdetail->cart->updatetotal($itemdetail->cart, '-'.$itemdetail->price);
+            $itemdetail->cart->update_total($itemdetail->cart, '-'.$itemdetail->price);
             return redirect('/cart')->with('success', 'Item quantity succesfully updated');
             }
         }
@@ -108,7 +110,7 @@ class CartController extends Controller
     public function delete_item($id){
         $itemdetail = CartDetail::findOrFail($id);
         // update total cart dulu
-        $itemdetail->cart->updatetotal($itemdetail->cart, '-'.$itemdetail->subtotal);
+        $itemdetail->cart->update_total($itemdetail->cart, '-'.$itemdetail->subtotal);
         $itemdetail->product->quantity = $itemdetail->product->quantity + $itemdetail->quantity;
         if ($itemdetail->delete()) {
             return redirect('/cart')->with('success', 'Item sucessfully deleted');
@@ -120,7 +122,8 @@ class CartController extends Controller
     public function checkout($id)
     {
         $cart = Cart::findOrFail($id);
-        $cart->status_cart == '2';
+        $cart->status_cart = '2';
         $cart->save();
+        return redirect('/cart')->with('success', 'Checkout successfull');
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
 @include('partial.sidebar')
 <main id="main" class="main">
-
+    <x-alert/>
     <div class="pagetitle">
       <h1>Detail Product</h1>
       <nav>

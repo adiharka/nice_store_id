@@ -3,7 +3,7 @@
 @section('content')
 @include('partial.sidebar')
 <main id="main" class="main">
-
+    <x-alert/>
   @if ($errors->any())
     @foreach ($errors->all() as $error)
       <li class="text-danger">{{ $error }}</li>
@@ -32,7 +32,7 @@
               <form method="POST" action="{{ route('product.update', $product->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                
+
                 <div class="row mb-3">
                   <label for="name" class="col-sm-3 col-form-label">Product Name</label>
                   <div class="col-sm-8">
@@ -75,7 +75,7 @@
                             <option value="6" {{ $product->category == 6 ? 'selected' : '' }}>Other</option>
                           </select>
                     </div>
-                    
+
                   </div>
                   <div class="row mb-3">
                     <label class=" col-sm-3 form-label" for="image">Gambar</label>
@@ -83,7 +83,7 @@
                         <input type="file" class="form-control" id="image" name="image" accept="image/*"/>
                     </div>
                   </div>
-                  
+
                 <div style="margin-left: 25.5%">
                   <button type="submit" class="btn btn-primary">Submit</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
